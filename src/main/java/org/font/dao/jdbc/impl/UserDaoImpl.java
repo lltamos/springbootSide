@@ -2,14 +2,19 @@ package org.font.dao.jdbc.impl;
 
 import org.font.dao.jdbc.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDaoImpl implements UserDao {
 
+//    @Autowired
+//    private JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @Qualifier("primaryJdbcTemplate")
+    protected JdbcTemplate jdbcTemplate;
 
     @Override
     public void create(String name, Integer age) {
