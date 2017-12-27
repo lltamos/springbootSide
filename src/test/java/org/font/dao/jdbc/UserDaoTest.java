@@ -16,31 +16,31 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 public class UserDaoTest {
     @Autowired
-    private UserDao userSerivce;
+    private UserDao userService;
 
     @Before
     public void setUp() {
         // 准备，清空user表
-        userSerivce.deleteAllUsers();
+        userService.deleteAllUsers();
     }
 
     @Test
     public void test() throws Exception {
         // 插入5个用户
-        userSerivce.create("a", 1);
-        userSerivce.create("b", 2);
-        userSerivce.create("c", 3);
-        userSerivce.create("d", 4);
-        userSerivce.create("e", 5);
+        userService.create("a", 1);
+        userService.create("b", 2);
+        userService.create("c", 3);
+        userService.create("d", 4);
+        userService.create("e", 5);
 
         // 查数据库，应该有5个用户
-        int count = userSerivce.getAllUsers().intValue();
+        int count = userService.getAllUsers().intValue();
 
         System.out.println("用户总数"+count);
 
         // 删除两个用户
-        userSerivce.deleteByName("a");
-        userSerivce.deleteByName("e");
+        userService.deleteByName("a");
+        userService.deleteByName("e");
 
     }
 }

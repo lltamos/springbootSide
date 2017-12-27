@@ -1,7 +1,5 @@
 package org.font.config.jpa;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +11,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.util.Map;
@@ -25,9 +24,12 @@ import java.util.Map;
         basePackages = {"org.font.dao.jpa.scan"}) //设置Repository所在位置
 public class PrimaryConfig {
 
-    @Autowired
-    @Qualifier("primaryDataSource")
+    @Resource(name = "primaryDataSource")
     private DataSource primaryDataSource;
+
+    @Resource
+    private JpaProperties jpaProperties;
+
 
     @Primary
     @Bean(name = "entityManagerPrimary")
@@ -41,13 +43,11 @@ public class PrimaryConfig {
         return builder
                 .dataSource(primaryDataSource)
                 .properties(getVendorProperties(primaryDataSource))
-                .packages("com.didispace.domain.p") //设置实体类所在位置
+                .packages("org.font.bean") //设置实体类所在位置
                 .persistenceUnit("primaryPersistenceUnit")
                 .build();
     }
 
-    @Autowired
-    private JpaProperties jpaProperties;
 
     private Map<String, String> getVendorProperties(DataSource dataSource) {
         return jpaProperties.getHibernateProperties(dataSource);

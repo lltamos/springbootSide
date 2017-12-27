@@ -1,0 +1,85 @@
+新增对第一数据源的JPA配置，注意两处注释的地方，用于指定数据源对应的Entity实体和Repository定义位置，用@Primary区分主数据源。
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+        entityManagerFactoryRef="entityManagerFactoryPrimary",
+        transactionManagerRef="transactionManagerPrimary",
+        basePackages= { "com.didispace.domain.p" }) //设置Repository所在位置
+public class PrimaryConfig {
+
+    @Autowired @Qualifier("primaryDataSource")
+    private DataSource primaryDataSource;
+
+    @Primary
+    @Bean(name = "entityManagerPrimary")
+    public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
+        return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
+    }
+
+    @Primary
+    @Bean(name = "entityManagerFactoryPrimary")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary (EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(primaryDataSource)
+                .properties(getVendorProperties(primaryDataSource))
+                .packages("com.didispace.domain.p") //设置实体类所在位置
+                .persistenceUnit("primaryPersistenceUnit")
+                .build();
+    }
+
+    @Autowired
+    private JpaProperties jpaProperties;
+
+    private Map<String, String> getVendorProperties(DataSource dataSource) {
+        return jpaProperties.getHibernateProperties(dataSource);
+    }
+
+    @Primary
+    @Bean(name = "transactionManagerPrimary")
+    public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
+        return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
+    }
+
+}
+新增对第二数据源的JPA配置，内容与第一数据源类似，具体如下：
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+        entityManagerFactoryRef="entityManagerFactorySecondary",
+        transactionManagerRef="transactionManagerSecondary",
+        basePackages= { "com.didispace.domain.s" }) //设置Repository所在位置
+public class SecondaryConfig {
+
+    @Autowired @Qualifier("secondaryDataSource")
+    private DataSource secondaryDataSource;
+
+    @Bean(name = "entityManagerSecondary")
+    public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
+        return entityManagerFactorySecondary(builder).getObject().createEntityManager();
+    }
+
+    @Bean(name = "entityManagerFactorySecondary")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactorySecondary (EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(secondaryDataSource)
+                .properties(getVendorProperties(secondaryDataSource))
+                .packages("com.didispace.domain.s") //设置实体类所在位置
+                .persistenceUnit("secondaryPersistenceUnit")
+                .build();
+    }
+
+    @Autowired
+    private JpaProperties jpaProperties;
+
+    private Map<String, String> getVendorProperties(DataSource dataSource) {
+        return jpaProperties.getHibernateProperties(dataSource);
+    }
+
+    @Bean(name = "transactionManagerSecondary")
+    PlatformTransactionManager transactionManagerSecondary(EntityManagerFactoryBuilder builder) {
+        return new JpaTransactionManager(entityManagerFactorySecondary(builder).getObject());
+    }
+
+}

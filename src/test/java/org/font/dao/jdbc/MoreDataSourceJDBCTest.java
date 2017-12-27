@@ -13,23 +13,23 @@ import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.annotation.Resource;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {MockServletContext.class, DemoApplication.class})
 @WebAppConfiguration
 public class MoreDataSourceJDBCTest {
 
-    @Autowired
-    @Qualifier("primaryJdbcTemplate")
-    protected JdbcTemplate jdbcTemplate1;
+    @Resource(name = "primaryJdbcTemplate")
+    private JdbcTemplate jdbcTemplate1;
 
-    @Autowired
-    @Qualifier("secondaryJdbcTemplate")
-    protected JdbcTemplate jdbcTemplate2;
+    @Resource(name = "secondaryJdbcTemplate")
+    private JdbcTemplate jdbcTemplate2;
 
     @Before
     public void setUp() {
-//        jdbcTemplate1.update("DELETE  FROM  USER ");
-//        jdbcTemplate2.update("DELETE  FROM  USER ");
+        jdbcTemplate1.update("DELETE  FROM  USER ");
+        jdbcTemplate2.update("DELETE  FROM  USER ");
     }
 
     @Test
