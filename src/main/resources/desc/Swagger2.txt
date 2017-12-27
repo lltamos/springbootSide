@@ -1,0 +1,46 @@
+添加Swagger2依赖
+在pom.xml中加入Swagger2的依赖
+
+
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-swagger2</artifactId>
+    <version>2.2.2</version>
+</dependency>
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-swagger-ui</artifactId>
+    <version>2.2.2</version>
+</dependency>
+创建Swagger2配置类
+在Application.java同级创建Swagger2的配置类Swagger2。
+
+@Configuration
+@EnableSwagger2
+public class Swagger2 {
+
+    @Bean
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.didispace.web"))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Spring Boot中使用Swagger2构建RESTful APIs")
+                .description("更多Spring Boot相关文章请关注：http://blog.didispace.com/")
+                .termsOfServiceUrl("http://blog.didispace.com/")
+                .contact("程序猿DD")
+                .version("1.0")
+                .build();
+    }
+
+}
+
+完成上述代码添加上，启动Spring Boot程序，访问：http://localhost:8080/swagger-ui.html
+。就能看到前文所展示的RESTful API的页面。我们可以再点开具体的API请求，以POST类型的/users请求为例，可找到上述代码中我们配置的Notes信息以及参数user的描述信息，如下图所示。
+
