@@ -5,8 +5,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.font.bean.User;
+import org.font.dao.jpa.scan.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 @RestController
@@ -14,6 +17,7 @@ import java.util.*;
 public class SwaggerController {
 
     static Map<Long, User> users = Collections.synchronizedMap(new HashMap<Long, User>());
+
 
     @ApiOperation(value = "获取用户列表", notes = "")
     @RequestMapping(value = {""}, method = RequestMethod.GET)
