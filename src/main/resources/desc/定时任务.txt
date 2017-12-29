@@ -1,0 +1,31 @@
+
+
+
+@Scheduled详解
+在上面的入门例子中，使用了
+@Scheduled(fixedRate = 5000) 注解来定义每过5秒执行的任务
+@Scheduled(fixedRate = 5000) ：上一次开始执行时间点之后5秒再执行
+@Scheduled(fixedDelay = 5000) ：上一次执行完毕时间点之后5秒再执行
+@Scheduled(initialDelay=1000, fixedRate=5000) ：第一次延迟1秒后执行，之后按fixedRate的规则每5秒执行一次
+@Scheduled(cron="*/5 * * * * *") ：通过cron表达式定义规则
+
+同步：
+在Spring Boot的主类中加入@EnableScheduling注解，启用定时任务的配置
+
+
+创建定时任务实现类
+@Component
+public class ScheduledTasks {
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+    @Scheduled(fixedRate = 5000)
+    public void reportCurrentTime() {
+        System.out.println("现在时间：" + dateFormat.format(new Date()));
+    }
+
+}
+
+异步：
+Spring Boot的主程序中配置@EnableAsync , @Async注解能够生效
+注： @Async所修饰的函数不要定义为static类型，这样异步调用不会生效
