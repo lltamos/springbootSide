@@ -2,6 +2,7 @@ package org.font.task;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -18,9 +19,9 @@ public class AsyncTask {
         long start = System.currentTimeMillis();
         Thread.sleep(random.nextInt(10000));
 
-//        for (int i=0;i<100000;i++){
-//            System.out.println("doTaskOne");
-//        }
+        for (int i = 0; i < 100000; i++) {
+            System.out.println("doTaskOne");
+        }
 
         long end = System.currentTimeMillis();
         System.out.println("完成任务一，耗时：" + (end - start) + "毫秒");
@@ -28,14 +29,15 @@ public class AsyncTask {
     }
 
     @Async
+//    @Scheduled(fixedRate = 5000)
     public Future<String> doTaskTwo() throws Exception {
         System.out.println("开始做任务二");
         long start = System.currentTimeMillis();
         Thread.sleep(random.nextInt(10000));
 
-//        for (int i=0;i<100000;i++){
-//            System.out.println("doTaskTwo");
-//        }
+        for (int i=0;i<100000;i++){
+            System.out.println("doTaskTwo");
+        }
 
         long end = System.currentTimeMillis();
         System.out.println("完成任务二，耗时：" + (end - start) + "毫秒");
@@ -49,9 +51,9 @@ public class AsyncTask {
         long start = System.currentTimeMillis();
         Thread.sleep(random.nextInt(10000));
 
-//        for (int i=0;i<100000;i++){
-//            System.out.println("doTaskThree");
-//        }
+        for (int i=0;i<100000;i++){
+            System.out.println("doTaskThree");
+        }
 
         long end = System.currentTimeMillis();
         System.out.println("完成任务三，耗时：" + (end - start) + "毫秒");
