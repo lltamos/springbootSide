@@ -6,11 +6,10 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@Order(1)
+@Order(2)
 //重点
-@WebFilter(filterName = "testFilter1", urlPatterns = "/*")
-public class TestFilter implements Filter {
-
+@WebFilter(filterName = "secondFilter", urlPatterns = "/*")
+public class SecondFilter implements Filter {
     @Override
     public void destroy() {
         // TODO Auto-generated method stub
@@ -20,9 +19,9 @@ public class TestFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        System.out.println("startFilter");
+        System.out.println("startSecondFilter");
         chain.doFilter(request, response);
-        System.out.println("endFilter");
+        System.out.println("endSecondFilter");
     }
 
     @Override
@@ -30,5 +29,4 @@ public class TestFilter implements Filter {
         // TODO Auto-generated method stub
 
     }
-
 }
