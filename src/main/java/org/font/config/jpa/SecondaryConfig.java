@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(

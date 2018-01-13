@@ -2,6 +2,8 @@ package org.font;
 
 import org.font.controller.rest.HelloController;
 import org.font.properties.BlogProperties;
+import org.font.redis.IocBean;
+import org.font.redis.SpringContextHolder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {MockServletContext.class,DemoApplication.class})
+@SpringBootTest(classes = {MockServletContext.class, DemoApplication.class})
 @WebAppConfiguration
 public class DemoApplicationTests {
 
@@ -49,5 +51,13 @@ public class DemoApplicationTests {
         System.out.println(blogProperties.getBigNumber());
         System.out.println(blogProperties.getDesc());
     }
+
+
+    @Test
+    public void springContextHolder() {
+        String s = IocBean.print();
+        System.out.println(s);
+    }
+
 
 }

@@ -1,11 +1,15 @@
 package org.font.common.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.font.common.beans.ResultBean;
 import org.font.common.exception.CheckException;
 import org.font.common.exception.UnloginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.naming.NoPermissionException;
 
@@ -15,9 +19,16 @@ import javax.naming.NoPermissionException;
  *
  * @author
  */
+@Aspect
+@Component
 public class ControllerAOP {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAOP.class);
 
+    @Pointcut("execution(public * org.font.common.beans.ResultBean.*(..))")
+    public void webLog() {
+    }
+
+    @Around("webLog()")
     public Object handlerControllerMethod(ProceedingJoinPoint pjp) {
         long startTime = System.currentTimeMillis();
 
