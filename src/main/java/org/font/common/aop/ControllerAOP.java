@@ -25,10 +25,10 @@ public class ControllerAOP {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAOP.class);
 
     @Pointcut("execution(public * org.font.common.beans.ResultBean.*(..))")
-    public void webLog() {
+    public void resultBeanAop() {
     }
 
-    @Around("webLog()")
+    @Around("resultBeanAop()")
     public Object handlerControllerMethod(ProceedingJoinPoint pjp) {
         long startTime = System.currentTimeMillis();
 
